@@ -1,26 +1,56 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { FC, useState } from 'react'
+import './App.scss'
+import { ITask } from './interface';
+import Todo from './Components/Todo';
+const App: FC = () => {
 
-function App() {
+  const [task, setTask] = useState<string>('');
+  const [todoList, setTodoList] = useState<ITask[]>([]);
+
+  const addTodo = (): void => {
+    if (task === '') {
+      alert('Please Completed Input')
+      return;
+    } else {
+      const newTask = { taskName: task, id: Math.ceil(Math.random() * 1000), isCompleted: false }
+      setTodoList([...todoList, newTask]);
+      setTask('')
+    }
+  }
+
+  const deleteTodo = (id: Number): void => {
+    setTodoList(
+      todoList.filter((task) => {
+        return task.id !== id;
+      })
+    );
+  }
+
+  const completeTodo = (id: Number): void => {
+    const itemIndex = todoList.findIndex(i => i.id === id);
+    const selectedTodo = { ...todoList[itemIndex] }
+    selectedTodo.isCompleted = true;
+    const updateTodo = [...todoList];
+    updateTodo[itemIndex] = selectedTodo;
+    setTodoList(updateTodo)
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="box">
+      <div className="box-header">
+        <div className="box-header__input">
+          <input type="text" placeholder='text.....' value={task} onChange={(e) => setTask(e.target.value)} />
+          <button type='submit' onClick={addTodo}>Add Todo</button>
+        </div>
+      </div>
+      <div className="box-todo">
+        {
+          todoList.map((todo, index) => (
+            <Todo key={index} todo={todo} onDelete={deleteTodo} onCompleted={completeTodo} />
+          ))
+        }
+      </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
