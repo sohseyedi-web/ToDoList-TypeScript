@@ -108,4 +108,23 @@
             }
         }
     }
+
+
+    @media screen and (max-width : 998px) {
+        &-header {
+            &__input {
+                width: 90%;
+
+                button {
+                    width: 100px;
+                }
+            }
+        }
+
+        &-todo {
+            &__list {
+                width: 90%
+            }
+        }
+    }
 }
