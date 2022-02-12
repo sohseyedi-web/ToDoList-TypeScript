@@ -12,7 +12,8 @@ const App: FC = () => {
       alert('Please Completed Input')
       return;
     } else {
-      const newTask = { taskName: task, id: Math.ceil(Math.random() * 1000), isCompleted: false }
+
+      const newTask = { taskName: task, id: Math.ceil(Math.random() * 100), isCompleted: false }
       setTodoList([...todoList, newTask]);
       setTask('')
     }
